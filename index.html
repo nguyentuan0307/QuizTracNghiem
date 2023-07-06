@@ -683,44 +683,59 @@
         generateNewQuiz();
 
         function generateNewQuiz() {
-            shuffledQuestions = questions.sort(() => 0.5 - Math.random()).slice(0, 10);
-            userAnswers = [];
+    shuffledQuestions = shuffleArray(questions).slice(0, 10);
+    userAnswers = [];
 
-            displayQuiz();
+    displayQuiz();
 
-            submitButton.disabled = false;
-            resetButton.disabled = true;
-            newQuizButton.disabled = true;
-        }
+    submitButton.disabled = false;
+    resetButton.disabled = true;
+    newQuizButton.disabled = true;
+}
 
-        function displayQuiz() {
-            quizContainer.innerHTML = "";
+function displayQuiz() {
+    quizContainer.innerHTML = "";
 
-            shuffledQuestions.forEach((currentQuestion, questionIndex) => {
-                var questionElement = document.createElement("div");
-                questionElement.className = "question";
-                questionElement.innerHTML = "<h3>" + currentQuestion.question + "</h3>";
+    shuffledQuestions.forEach((currentQuestion, questionIndex) => {
+        var questionElement = document.createElement("div");
+        questionElement.className = "question";
+        questionElement.innerHTML = "<h3>" + (questionIndex + 1) + ". " + currentQuestion.question + "</h3>";
 
-                var choicesElement = document.createElement("div");
-               choicesElement.className = "choices";
+        var choicesElement = document.createElement("div");
+        choicesElement.className = "choices";
 
-                currentQuestion.choices.forEach((choice, choiceIndex) => {
-                    var choiceElement = document.createElement("input");
-                    choiceElement.type = "radio";
-                    choiceElement.name = "question" + questionIndex;
-                    choiceElement.value = choiceIndex;
+        currentQuestion.choices.forEach((choice, choiceIndex) => {
+            var choiceElement = document.createElement("input");
+            choiceElement.type = "radio";
+            choiceElement.name = "question" + questionIndex;
+            choiceElement.value = choiceIndex;
 
-                    var labelElement = document.createElement("label");
-                    labelElement.innerHTML = choice;
+            var labelElement = document.createElement("label");
+            labelElement.innerHTML = choice;
 
-                    choicesElement.appendChild(choiceElement);
-                    choicesElement.appendChild(labelElement);
-                });
+            choicesElement.appendChild(choiceElement);
+            choicesElement.appendChild(labelElement);
+        });
 
-                questionElement.appendChild(choicesElement);
-                quizContainer.appendChild(questionElement);
-            });
-        }
+        questionElement.appendChild(choicesElement);
+        quizContainer.appendChild(questionElement);
+    });
+}
+
+function shuffleArray(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
 
         function submitQuiz() {
             var score = 0;
