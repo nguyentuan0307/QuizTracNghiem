@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trắc nghiệm</title>
+    <style>
+        /* CSS styling */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .question {
+            margin-bottom: 10px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .question h3 {
+            margin-bottom: 5px;
+        }
+
+        .choices {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: flex-start;
+            margin-top: 5px;
+        }
+
+        .choices label {
+            margin-right: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+
+        /* CSS cho câu trả lời không đúng */
+        .incorrect {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Trắc nghiệm</h1>
+
+    <div id="quiz"></div>
+    <button onclick="submitQuiz()">Nộp bài</button>
+    <button onclick="resetQuiz()">Làm lại bài này</button>
+    <button onclick="generateNewQuiz()">Làm bài mới</button>
+    <div id="result"></div>
+
+    <script>
+        var questions = [
+            // Chương 1
+    {
+        question: "The mistake of paying more attention to the specific products a company offers than to the benefits and experiences produced by these products defines",
+        choices: ["a. Marketing myopia", "b. Marketing", "c. Production concept", "d. Satisfaction."],
+        correctAnswer: 0
+    },
+    {
+        question: "The organization should focus on improving production and distribution efficiency illustrates",
+        choices: ["a. Marketing", "b. Selling", "c. Production", "d. Product concept"],
+        correctAnswer: 2
+    },
+    {
+        question: "Which of the following is the strategic 3C’s of marketing?",
+        choices: ["a. Customer, company, and concept", "b. Customer, company, and competition", "c. Company, cluster, and customer", "d. Competition, concept, and customer"],
+        correctAnswer: 1
+    },
+    {
+        question: "This identifies the set of actual and potential buyers of a product or service.",
+        choices: ["a. Needs, wants, and demands", "b. Exchanges and relationships", "c. Market offerings", "d. Markets"],
+        correctAnswer: 3
+    },
+    {
+        question: "Which of the following is an advantage of marketing?",
+        choices: ["a. Brand recognition", "b. Production concept", "c. Marketing mix", "d. Selling"],
+        correctAnswer: 0
+    },
+    {
+        question: "The idea that a company’s marketing decisions should consider consumers’ wants, the company’s requirements, consumers’ long-run interests, and society’s long-run interests pertains to",
+        choices: ["a. Production", "b. Product", "c. Selling", "d. Societal marketing concept"],
+        correctAnswer: 3
+    },
+    {
+        question: "The process by which companies engage customers, build strong customer relationships, and create customer value in order to capture value from customers in return describes",
+        choices: ["a. Customer relationship", "b. Marketing", "c. Marketing concept", "d. Selling"],
+        correctAnswer: 1
+    },
+    {
+        question: "Which of the following core customer and marketplace concepts that relates to the form human needs take as they are shaped by culture and individual personality?",
+        choices: ["a. Value and satisfaction", "b. Exchanges and relationships", "c. Needs, wants, and demands", "d. Markets"],
+        correctAnswer: 2
+    },
+    {
+        question: "Which of the following concepts describes the idea that consumers will not buy enough of the firm’s products unless the firm undertakes a large-scale selling and promotion effort?",
+        choices: ["a. Production", "b. Selling", "c. Product", "d. Marketing concept"],
+        correctAnswer: 1
+    },
+    {
+        question: "One of the objectives of the marketing management process is to",
+        choices: ["a. Develop marketing mix", "b. Increase product offering", "c. Increase costs", "d. Develop customer relationships"],
+        correctAnswer: 0
+    },
+// Chương 2
+    {
+        question: "A consumer buying behavior in situations characterized by high consumer involvement in a purchase and significant perceived differences among brands pertains to",
+        choices: ["a. Complex buying", "b. Habitual buying", "c. Dissonance-reducing buying", "d. Variety-seeking buying behavior"],
+        correctAnswer: 0
+    },
+    {
+        question: "A person’s consistently favorable or unfavorable evaluations, feelings, and tendencies toward an object or idea is",
+        choices: ["a. Belief", "b. Learning", "c. Attitude", "d. Perception"],
+        correctAnswer: 2
+    },
+    {
+        question: "When consumer uses information to evaluate alternative brands in the choice set refers to",
+        choices: ["a. Need recognition", "b. Information search", "c. Post-purchase behavior", "d. Alternative evaluation"],
+        correctAnswer: 3
+    },
+    {
+        question: "The buying behavior of organizations that buy goods and services for use in the production of other products and services that are sold, rented, or supplied to others describes",
+        choices: ["a. Complex buying behavior", "b. Business buyer behavior", "c. Habitual buying behavior", "d. Business buying process"],
+        correctAnswer: 1
+    },
+    {
+        question: "Which of the following social factors describe the impact of the personal words and recommendations of trusted friends, family, associates, and other consumers on buying behavior?",
+        choices: ["a. Group", "b. Word-of-mouth influence", "c. Opinion leader", "d. Roles and status"],
+        correctAnswer: 1
+    },
+    {
+        question: "When all the individuals and households buy or acquire goods and services for personal consumption illustrates",
+        choices: ["a. Consumer buyer behavior", "b. Buyer responses", "c. Consumer market", "d. Personal behavior"],
+        correctAnswer: 2
+    },
+    {
+        question: "Which of the following cultural factors describe the relatively permanent and ordered divisions in a society whose members share similar values, interests, and behaviors?",
+        choices: ["a. Social class", "b. Sub-culture", "c. Culture", "d. Tradition"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which of the following concepts that relates to a person’s pattern of living as expressed in his or her activities, interests, and opinions?",
+        choices: ["a. Occupation", "b. Age and life stage", "c. Economic situation", "d. Lifestyle"],
+        correctAnswer: 3
+    },
+    {
+        question: "A need that is sufficiently pressing to direct the person to seek satisfaction of the need defines",
+        choices: ["a. Motive", "b. Learning", "c. Perception", "d. Beliefs and attitudes"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which of the following buyer decision process describes that consumers take further action after purchase, based on their satisfaction or dissatisfaction?",
+        choices: ["a. Information search", "b. Purchase decision", "c. Alternative evaluation", "d. Post-purchase behavior"],
+        correctAnswer: 3
+    },
+// Chương 3
+    {
+        question: "Dividing a market into distinct groups of buyers who have different needs, characteristics, or behaviors and who might require separate marketing strategies or mixes is",
+        choices: ["a. Market segmentation", "b. Positioning", "c. Differentiation", "d. Market targeting"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which of the following does not belong to demographic segmentation?",
+        choices: ["a. Age", "b. Life cycle", "c. Gender", "d. Nations"],
+        correctAnswer: 3
+    },
+    {
+        question: "A set of buyers who share common needs or characteristics that a company decides to serve describes",
+        choices: ["a. Customers", "b. Segment size", "c. Target market", "d. Segment attractiveness"],
+        correctAnswer: 2
+    },
+    {
+        question: "The way a product is defined by consumers on important attributes - the place it occupies in consumers’ minds relative to competing products refers to",
+        choices: ["a. Differentiation", "b. Product position", "c. Competitive advantage", "d. Value proposition"],
+        correctAnswer: 1
+    },
+    {
+        question: "Which of the following is a classification of psychographic segmentation?",
+        choices: ["a. Gender", "b. Demographic", "c. Nation", "d. Lifestyle"],
+        correctAnswer: 3
+    },
+    {
+        question: "A requirement that describes market segments can be effectively reached and served is",
+        choices: ["a. Measurable", "b. Accessible", "c. Actionable", "d. Substantial"],
+        correctAnswer: 1
+    },
+    {
+        question: "A market-coverage strategy in which a firm goes after a large share of one or a few segments or niches refers to",
+        choices: ["a. Concentrated", "b. Individual", "c. Local", "d. Differentiated marketing"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which of the following classifications fall under behavioral segmentation?",
+        choices: ["a. Lifestyle", "b. Income", "c. Benefit", "d. Age and life cycle segmentation"],
+        correctAnswer: 2
+    },
+    {
+        question: "An advantage over competitors gained by offering greater customer value either by having lower prices or providing more benefits that justify higher prices is",
+        choices: ["a. Competitive advantage", "b. Product quality", "c. Product feature", "d. Positioning"],
+        correctAnswer: 0
+    },
+    {
+        question: "A market-coverage strategy in which a firm decides to ignore market segment differences and go after the whole market with one offer describes",
+        choices: ["a. Differentiated", "b. Concentrated", "c. Undifferentiated", "d. Niche marketing"],
+        correctAnswer: 2
+    },
+// Chương 4
+    {
+        question: "The huge and complex data sets generated by today’s sophisticated information generation, collection, storage, and analysis technologies defines",
+        choices: ["a. Internal database", "b. MIS", "c. Big data", "d. External data"],
+        correctAnswer: 2
+    },
+    {
+        question: "The systematic design, collection, analysis, and reporting of data and findings relevant to a specific marketing situation facing an organization is",
+        choices: ["a. Marketing research", "b. Research design and methodology", "c. MIS", "d. Marketing intelligence"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which of the following is the first step in the marketing research process?",
+        choices: ["a. Developing the research plan", "b. Define the problem", "c. Interpreting and reporting", "d. Implementing the research plan"],
+        correctAnswer: 1
+    },
+    {
+        question: "Electronic collections of consumers and market information obtained from the data sources within the company network illustrates",
+        choices: ["a. MIS", "b. Customer insights", "c. Competitive marketing intelligence", "d. Internal database"],
+        correctAnswer: 3
+    },
+    {
+        question: "Consists of people, equipment, and procedures to gather, sort, analyze, evaluate, and distribute needed, timely, and accurate information to marketing decision makers defines",
+        choices: ["a. MIS", "b. Big data", "c. Marketing research", "d. Marketing intelligence"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which of the following is not needed in developing the needed information in marketing information system?",
+        choices: ["a. Internal databases", "b. Marketing research", "c. Assessing information needs", "d. Marketing intelligence"],
+        correctAnswer: 2
+    },
+    {
+        question: "The systematic monitoring, collection, and analysis of publicly available information about consumers, competitors, and developments in the marketing environment is",
+        choices: ["a. Marketing research", "b. Competitive marketing intelligence", "c. Marketing environment", "d. MIS"],
+        correctAnswer: 1
+    },
+    {
+        question: "Which part of the marketing research process do you find the methodology and research design?",
+        choices: ["a. Interpreting and reporting", "b. Define the problem", "c. Implementing the research plan", "d. Developing the research plan"],
+        correctAnswer: 3
+    },
+    {
+        question: "Fresh marketing information-based understandings of customers and the marketplace that become the basis for creating customer value, engagement, and relationships describes",
+        choices: ["a. Customer insights", "b. Marketing intelligence", "c. MIS", "d. Internal databases"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which of the following is a goal of competitive marketing intelligence that improves the strategic decision making?",
+        choices: ["a. Assessing and tracking competitors’ products", "b. Understanding the consumer environment", "c. Providing early warnings of strengths and weaknesses", "d. Understanding the opportunities and threats"],
+        correctAnswer: 1
+    },
+// Chương 5 A
+{
+        question: "The process of developing and maintaining a strategic fit between the organization’s goals and capabilities and its changing marketing opportunities defines",
+        choices: ["a. Marketing strategy", "b. Market-oriented mission", "c. Strategic planning", "d. Portfolio analysis"],
+        correctAnswer: 2
+    },
+    {
+        question: "A network composed of the company, suppliers, distributors, and, ultimately, customers who partner with each other to improve the performance of the entire system in delivering customer value refers to",
+        choices: ["a. Value chain", "b. Value delivery network", "c. Downsizing", "d. Customer value"],
+        correctAnswer: 1
+    },
+    {
+        question: "Company growth through starting up or acquiring businesses outside the company’s current products and markets is known as",
+        choices: ["a. Diversification", "b. Market development", "c. Integration", "d. Differentiation"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which of the following is a problem with matrix approaches?",
+        choices: ["a. Easy", "b. Time bound", "c. Inexpensive", "d. Time consuming"],
+        correctAnswer: 3
+    },
+    {
+        question: "A statement of the organization’s purpose - what it wants to accomplish in the larger environment is",
+        choices: ["a. Mission Statement", "b. Philosophy", "c. Vision", "d. Objective/s"],
+        correctAnswer: 0
+    },
+    {
+        question: "The process by which management evaluates the products and businesses that make up the company describes",
+        choices: ["a. Business portfolio", "b. Portfolio analysis", "c. Marketing strategy", "d. Business analysis"],
+        correctAnswer: 1
+    },
+    {
+        question: "These high-growth, high-share businesses or products and they often need heavy investments to finance their rapid growth are known as",
+        choices: ["a. Cash cow", "b. Dogs", "c. Stars", "d. Question marks"],
+        correctAnswer: 2
+    },
+    {
+        question: "Which of the following elements of a product/market expansion grid that describes a company growth by increasing sales of current products to current market segments without changing the product?",
+        choices: ["a. Market development", "b. Product development", "c. Diversification", "d. Market penetration"],
+        correctAnswer: 3
+    },
+    {
+        question: "Which of the following is the best-known portfolio-planning method?",
+        choices: ["a. Product expansion grid", "b. BCG approach", "c. Market expansion grid", "d. Balanced score card"],
+        correctAnswer: 1
+    },
+    {
+        question: "One of the reasons is that the market environment might change, making some products or markets less profitable describes",
+        choices: ["a. Integration", "b. Differentiation", "c. Downsizing", "d. Penetration"],
+        correctAnswer: 2
+    },
+// Chương 5B
+{
+        question: "The marketing logic by which the company hopes to create customer value and achieve profitable customer relationships defines",
+        choices: ["a. Marketing mix", "b. Marketing strategy", "c. MIS", "d. Product development"],
+        correctAnswer: 1
+    },
+    {
+        question: "A group of consumers who respond in a similar way to a given set of marketing efforts is",
+        choices: ["a. Market targeting", "b. Marketing intermediaries", "c. Differentiation", "d. Market segment"],
+        correctAnswer: 3
+    },
+    {
+        question: "Which of the following ways of developing an integrated marketing mix that refers to the extent to which the product exceeds customer expectations?",
+        choices: ["a. Acceptability", "b. Accessibility", "c. Affordability", "d. Awareness"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which of the following environmental forces describes the laws, government agencies, and pressure groups that influence and limit various organizations and individuals in a given society?",
+        choices: ["a. Demographic", "b. Technological", "c. Political", "d. Cultural environment"],
+        correctAnswer: 2
+    },
+    {
+        question: "The actors close to the company that affect its ability to serve its customers is",
+        choices: ["a. Microenvironment", "b. Marketing environment", "c. Macroenvironment", "d. Environmental forces"],
+        correctAnswer: 0
+    },
+    {
+        question: "The set of tactical marketing tools that the firm blends to produce the response it wants in the target market refers to",
+        choices: ["a. MIS", "b. Marketing mix", "c. Marketing strategy", "d. Marketing research"],
+        correctAnswer: 1
+    },
+    {
+        question: "Firms that help the company to promote, sell, and distribute its goods to final buyers are",
+        choices: ["a. Suppliers", "b. Customers", "c. Competitors", "d. Marketing intermediaries"],
+        correctAnswer: 3
+    },
+    {
+        question: "Which of the macroenvironmental actors describes the factors that affect consumer purchasing power and spending patterns?",
+        choices: ["a. Technological", "b. Natural", "c. Economic", "d. Political environment"],
+        correctAnswer: 2
+    },
+    {
+        question: "Arranging for a product to occupy a clear, distinctive, and desirable place relative to competing products in the minds of target consumers illustrates",
+        choices: ["a. Differentiation", "b. Targeting", "c. Segmentation", "d. Positioning"],
+        correctAnswer: 3
+    },
+    {
+        question: "Which of the following is a requirement in marketing management function?",
+        choices: ["a. Implementation", "b. Segmentation", "c. Research", "d. Product development"],
+        correctAnswer: 0
+    },
+
+    //Chương 6
+    {
+        question: "An activity, benefit or satisfaction offered for sale that is essentially intangible and does not result in the ownership of anything defines",
+        choices: ["a. Product", "b. Goods", "c. Service", "d. Satisfaction"],
+        correctAnswer: 2
+    },
+    {
+        question: "Which of the following consumer product that the consumer either does not know about or knows about but does not normally consider buying?",
+        choices: ["a. Unsought", "b. Convenience", "c. Specialty", "d. Shopping product"],
+        correctAnswer: 0
+    },
+    {
+        question: "The characteristics of a product or service that bear on its ability to satisfy stated or implied customer needs is",
+        choices: ["a. Product features", "b. Product quality", "c. Consumer wants", "d. Tangibles"],
+        correctAnswer: 1
+    },
+    {
+        question: "Inviting broad communities of people into the new product innovation process refers to",
+        choices: ["a. Idea generation", "b. Outsourcing", "c. Product development", "d. Crowdsourcing"],
+        correctAnswer: 3
+    },
+    {
+        question: "When testing new product concepts with a group of target consumers to find out if the concepts have strong consumer appeal is known as",
+        choices: ["a. Concept testing", "b. Business analysis", "c. Product development", "d. Commercialization"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which stage of the product life cycle when the company finds and develops a new product idea?",
+        choices: ["a. Maturity", "b. Decline", "c. Product development", "d. Growth"],
+        correctAnswer: 2
+    },
+    {
+        question: "Which stage of the new product development process requires review of the sales, costs, and profit projections for a new product to find out whether these factors satisfy the company’s objectives?",
+        choices: ["a. Product development", "b. Concept testing", "c. Marketing strategy development", "d. Business analysis"],
+        correctAnswer: 3
+    },
+    {
+        question: "A name, term, sign, symbol, or design, or a combination of these, that identifies the products or services of one seller or group of sellers and differentiates them from those of competitors refers to",
+        choices: ["a. Packaging", "b. Branding", "c. Labeling", "d. Product attribute"],
+        correctAnswer: 1
+    },
+    {
+        question: "The total number of items a company carries within its product lines refers to",
+        choices: ["a. Product mix width", "b. Product mix length", "c. Production line depth", "d. Consistency of the product mix"],
+        correctAnswer: 1
+    },
+    {
+        question: "A consumer product that customers usually buy frequently, immediately, and with minimal comparison and buying effort is called",
+        choices: ["a. Convenience", "b. Unsought", "c. Specialty", "d. Shopping product"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which product classification consists of activities undertaken to create, maintain, or change the attitudes and behavior of target consumers toward an organization?",
+        choices: ["a. Person", "b. People", "c. Organization", "d. Place marketing"],
+        correctAnswer: 2
+    },
+    {
+        question: "The development of original products, product improvements, product modifications, and new brands through the firm’s own product development efforts is known as",
+        choices: ["a. Marketing strategy", "b. Concept", "c. Idea", "d. New product development"],
+        correctAnswer: 3
+    },
+    {
+        question: "Which stage of the product life cycle where the product attains optimal profit?",
+        choices: ["a. Introduction", "b. Maturity", "c. Growth", "d. Decline"],
+        correctAnswer: 1
+    },
+    {
+        question: "Anything that can be offered to a market for attention, acquisition, use, or consumption that might satisfy a want or need is a",
+        choices: ["a. Product", "b. Goods", "c. Service", "d. Satisfaction"],
+        correctAnswer: 0
+    },
+    {
+        question: "The course of a product’s sales and profits over its lifetime describes",
+        choices: ["a. Maturity stage", "b. Production", "c. PLC", "d. New product development"],
+        correctAnswer: 2
+    },
+    //Chương 7
+    {
+        question: "The amount of money charged for a product or service, or the sum of the values that customers exchange for the benefits of having or using the product or service is",
+        choices: ["a. Product", "b. Place", "c. Price", "d. Promotion"],
+        correctAnswer: 2
+    },
+    {
+        question: "Which of the following major pricing strategies is product driven?",
+        choices: ["a. Cost based", "b. Market penetration", "c. Value based", "d. Competition based pricing"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which of the following new product pricing strategy sets a low price for a new product in order to attract a large number of buyers and a large market share?",
+        choices: ["a. Market-skimming", "b. Market-penetration", "c. Product line", "d. Captive-product pricing"],
+        correctAnswer: 1
+    },
+    {
+        question: "A price adjustment strategy that temporarily prices products below the list price, and sometimes even below cost, to increase short-run sales pertains to",
+        choices: ["a. Geographical", "b. By-product", "c. Uniform-delivered", "d. Promotional pricing"],
+        correctAnswer: 3
+    },
+    {
+        question: "Adjusting prices continually to meet the characteristics and needs of individual customers and situations describes",
+        choices: ["a. International", "b. Basing-point", "c. Dynamic pricing", "d. Zone"],
+        correctAnswer: 3
+    },
+    {
+        question: "A type of Customer-value based pricing that offers just the right combination of quality and good service at a fair price is",
+        choices: ["a. Value-added", "b. Value based", "c. Good-value", "d. High-Low Pricing"],
+        correctAnswer: 2
+    },
+    {
+        question: "The cost associated with a given level of output is called",
+        choices: ["a. Average", "b. Variable", "c. Fixed", "d. Total cost"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which of the following cost-based pricing that sets the price at which total costs are equal to total revenue and there is no profit?",
+        choices: ["a. Target profit", "b. Break-even", "c. Cost-plus", "d. Competition-based pricing"],
+        correctAnswer: 1
+    },
+    {
+        question: "A product mix pricing strategy that is related to the pricing of optional or accessory products along with a main product refers to",
+        choices: ["a. Product line", "b. Captive-product", "c. Optional-product", "d. By-product pricing"],
+        correctAnswer: 2
+    },
+    {
+        question: "Which of the following price adjustment strategies that refer to the promotional money paid by manufacturers to retailers in return for an agreement to feature the manufacturer’s products in some way?",
+        choices: ["a. Discount", "b. Allowance", "c. Psychological", "d. Product line pricing"],
+        correctAnswer: 1
+    },
+    {
+        question: "A price adjustment strategy in which the seller absorbs all or part of the freight charges in order to get the desired business is",
+        choices: ["a. Basing-point", "b. Zone", "c. Uniform-delivered", "d. Freight-absorption pricing"],
+        correctAnswer: 3
+    },
+    {
+        question: "Which of the following pricing in different markets consists of many buyers and sellers trading in a uniform commodity?",
+        choices: ["a. Pure competition", "b. Oligopolistic competition", "c. Monopolistic competition", "d. Pure monopoly"],
+        correctAnswer: 0
+    },
+    {
+        question: "The setting of prices based on competitors’ strategies, prices, costs, and market offerings defines",
+        choices: ["a. Target costing", "b. Competition-based pricing", "c. Product-based pricing", "d. Price elasticity"],
+        correctAnswer: 2
+    },
+    {
+        question: "A pricing that starts with an ideal selling price, then targets costs that will ensure that the price is met refers to",
+        choices: ["a. Target costing", "b. Product-based pricing", "c. Competition-based pricing", "d. Price elasticity"],
+        correctAnswer: 0
+    },
+    {
+        question: "A curve that shows the number of units the market will buy in a given time period, at different prices that might be charged is called",
+        choices: ["a. Price elasticity", "b. Demand", "c. Supply", "d. Production curve"],
+        correctAnswer: 1
+    },
+    //Chương 8
+    {
+        question: "A set of interdependent organizations that help make a product or service available for use or consumption by the consumer or business user defines",
+        choices: ["a. Warehousing", "b. Brokers", "c. Retailing", "d. Marketing channel"],
+        correctAnswer: 3
+    },
+    {
+        question: "The layer of intermediaries that performs some work in bringing the product and its ownership closer to the final buyer is",
+        choices: ["a. Channel level", "b. Middlemen", "c. Agent", "d. Distributor"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which of the following types of retailers that carries a narrow product line with a deep assortment within that line?",
+        choices: ["a. Department store", "b. Supermarket", "c. Specialty store", "d. Superstore"],
+        correctAnswer: 2
+    },
+    {
+        question: "Which of the following types of retailers according to organizational approach that has two or more outlets that are commonly owned and controlled?",
+        choices: ["a. Retailer cooperative", "b. Corporate chains", "c. Voluntary chain", "d. Warehouse club"],
+        correctAnswer: 1
+    },
+    {
+        question: "All the activities involved in selling goods and services to those buying for resale or business use refers to",
+        choices: ["a. Wholesaling", "b. Retailing", "c. Wholesaler", "d. Retailer"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which of the following full-service wholesalers sell to manufacturers rather than to retailers?",
+        choices: ["a. Wholesale merchants", "b. Industrial distributors", "c. Cash-and-carry wholesalers", "d. Drop shippers"],
+        correctAnswer: 1
+    },
+    {
+        question: "They generally have a long-term relationship with buyers and make purchases for them, often receiving, inspecting, warehousing, and shipping the merchandise to buyers are",
+        choices: ["a. Commission merchants", "b. Selling agents", "c. Purchasing agents", "d. Manufacturers’ agents"],
+        correctAnswer: 2
+    },
+    {
+        question: "A retail operation that sells standard merchandise at lower prices by accepting lower margins and selling at higher volume is",
+        choices: ["a. Off-price retailer", "b. Warehouse club", "c. Factory outlet", "d. Discount store"],
+        correctAnswer: 3
+    },
+    {
+        question: "All the activities involved in selling goods or services directly to final consumers for their personal, nonbusiness use pertains to",
+        choices: ["a. Retailer", "b. Wholesaling", "c. Retailing", "d. Wholesaler"],
+        correctAnswer: 2
+    },
+    {
+        question: "Which of the following functions of wholesaling where wholesalers can provide quicker delivery to buyers because they are closer to buyers than are producers?",
+        choices: ["a. Financing", "b. Risk bearing", "c. Warehousing", "d. Transportation"],
+        correctAnswer: 3
+    },
+    {
+        question: "A wholesaler who does not take title to goods and whose function is to bring buyers and sellers together and assist in negotiation describes",
+        choices: ["a. Broker", "b. Rack jobbers", "c. Agent", "d. Commission merchants"],
+        correctAnswer: 0
+    },
+    {
+       question: "An off-price retailing operation that is owned and operated by a manufacturer and normally carries the manufacturer’s surplus, discontinued, or irregular goods is",
+        choices: ["a. Independent off-price retailer", "b. Factory outlet", "c. Warehouse club", "d. Discount store"],
+        correctAnswer: 1
+    },
+    {
+        question: "Which of the following functions of marketing channels develop and spread persuasive communications about an offer?",
+        choices: ["a. Information", "b. Promotion", "c. Contact", "d. Negotiation"],
+        correctAnswer: 1
+    },
+    {
+        question: "These retailers serve customers who are willing to perform their own locate-compare-select process to save time or money are",
+        choices: ["a. Self-service", "b. Full-service", "c. Limited-service", "d. Non-service retailers"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which of the following organizational approaches a contractual association between a manufacturer, wholesaler, or service organization (a franchisor) and independent businesspeople (franchisees) who buy the right to own and operate one or more units in the franchise system?",
+        choices: ["a. Wholesale", "b. Retail", "c. Franchise", "d. Distribution"],
+        correctAnswer: 2
+    },
+    // Chương 9
+    {
+        question: "The specific blend of promotion tools that the company uses to persuasively communicate customer value and build customer relationships defines",
+        choices: ["a. Promotion mix", "b. Advertising", "c. Marketing strategy", "d. Integrated marketing communications"],
+        correctAnswer: 0
+    },
+    {
+        question: "Which of the following promotion tools describes that any paid form of non-personal presentation and promotion of ideas, goods, or services by an identified sponsor that includes broadcast, print, online, mobile, outdoor, and other forms?",
+        choices: ["a. Sales promotion", "b. Public relations", "c. Personal selling", "d. Advertising"],
+        correctAnswer: 3
+    },
+    {
+        question: "Which of the following elements in the communication process that refers to the set of symbols that the sender transmits?",
+        choices: ["a. Decoding", "b. Feedback", "c. Message", "d. Response"],
+        correctAnswer: 2
+    },
+    {
+        question: "These are like coupons except that the price reduction occurs after the purchase rather than at the retail outlet are called",
+        choices: ["a. Price packs", "b. Rebates", "c. Coupons", "d. Premiums"],
+        correctAnswer: 1
+    },
+    {
+        question: "Which of the following functions of public relations perform the building and maintaining national or local community relationships?",
+        choices: ["a. Lobbying", "b. Investor relations", "c. Public affairs", "d. Development"],
+        correctAnswer: 2
+    },
+    {
+        question: "The net return on advertising investment divided by the costs of the advertising investment is",
+        choices: ["a. Return on advertising investment", "b. Net profit margin", "c. Rate of return", "d. Net present value"],
+        correctAnswer: 0
+    },
+    {
+        question: "They relay customer concerns about company products and actions back inside to those who can handle them are called",
+        choices: ["a. Advertisers", "b. Salespeople", "c. Marketers", "d. Merchandisers"],
+        correctAnswer: 1
+    },
+    {
+        question: "The vehicles through which advertising messages are delivered to their intended audiences refers to",
+        choices: ["a. Advertising", "b. Medium", "c. Channel promotion", "d. Advertising media"],
+        correctAnswer: 3
+    },
+    {
+        question: "Which of the steps in personal selling that describes in which a salesperson meets the customer for the first time?",
+        choices: ["a. Prospecting", "b. Presentation", "c. Pre-approach", "d. Approach"],
+        correctAnswer: 3
+    },
+    {
+        question: "What do you call the short-term incentives to encourage the purchase or sale of a product or a service?",
+        choices: ["a. Sales promotion", "b. Trade promotion", "c. Business promotion", "d. Discounts"],
+        correctAnswer: 0
+    },
+    {
+        question: "Sales promotion tools used to persuade resellers to carry a brand, give it shelf space, and promote it in advertising describes",
+        choices: ["a. Premiums", "b. Sales promotions", "c. Trade promotions", "d. Coupons"],
+        correctAnswer: 2
+    },
+    {
+        question: "The involvement in making the brand an inseparable part of some other form of entertainment orcontent illustrates",
+        choices: ["a. Advertainment", "b. Brand integration", "c. Branded promotion", "d. Native advertising"],
+        correctAnswer: 1
+    },
+    {
+        question: "Which of the following promotional tools is involved in building good relations with the company’s various publics by obtaining favorable publicity, building up a good corporate image, and handling or heading off unfavorable rumors, stories, and events?",
+        choices: ["a. Public relations", "b. Digital marketing", "c. Direct marketing", "d. Sales promotion"],
+        correctAnswer: 0
+    },
+    {
+        question: "The part of the receiver’s response communicated back to the sender is",
+        choices: ["a. Response", "b. Message", "c. Feedback", "d. Media"],  
+        correctAnswer: 2
+    },
+    {
+        question: "The approach, style, tone, words, and format used for executing an advertising message refers to",
+        choices: ["a. Advertising media", "b. Execution style", "c. Channel", "d. Execution  style"],
+        correctAnswer: 3
+    }
+];
+
+
+        var quizContainer = document.getElementById("quiz");
+        var resultContainer = document.getElementById("result");
+        var submitButton = document.querySelector("button:nth-of-type(1)");
+        var resetButton = document.querySelector("button:nth-of-type(2)");
+        var newQuizButton = document.querySelector("button:nth-of-type(3)");
+
+        var shuffledQuestions = [];
+        var userAnswers = [];
+
+        generateNewQuiz();
+
+        function generateNewQuiz() {
+            shuffledQuestions = questions.sort(() => 0.5 - Math.random()).slice(0, 10);
+            userAnswers = [];
+
+            displayQuiz();
+
+            submitButton.disabled = false;
+            resetButton.disabled = true;
+            newQuizButton.disabled = true;
+        }
+
+        function displayQuiz() {
+            quizContainer.innerHTML = "";
+
+            shuffledQuestions.forEach((currentQuestion, questionIndex) => {
+                var questionElement = document.createElement("div");
+                questionElement.className = "question";
+                questionElement.innerHTML = "<h3>" + currentQuestion.question + "</h3>";
+
+                var choicesElement = document.createElement("div");
+               choicesElement.className = "choices";
+
+                currentQuestion.choices.forEach((choice, choiceIndex) => {
+                    var choiceElement = document.createElement("input");
+                    choiceElement.type = "radio";
+                    choiceElement.name = "question" + questionIndex;
+                    choiceElement.value = choiceIndex;
+
+                    var labelElement = document.createElement("label");
+                    labelElement.innerHTML = choice;
+
+                    choicesElement.appendChild(choiceElement);
+                    choicesElement.appendChild(labelElement);
+                });
+
+                questionElement.appendChild(choicesElement);
+                quizContainer.appendChild(questionElement);
+            });
+        }
+
+        function submitQuiz() {
+            var score = 0;
+
+            shuffledQuestions.forEach((currentQuestion, questionIndex) => {
+                var selectedOption = document.querySelector('input[name="question' + questionIndex + '"]:checked');
+                if (selectedOption) {
+                    var selectedAnswer = parseInt(selectedOption.value);
+                    userAnswers.push(selectedAnswer);
+
+                    if (selectedAnswer === currentQuestion.correctAnswer) {
+                        score++;
+                    } else {
+                        selectedOption.nextElementSibling.classList.add('incorrect');
+                    }
+
+                    selectedOption.disabled = true; // Vô hiệu hóa nút chọn sau khi đã chọn câu trả lời
+                }
+            });
+
+            resultContainer.innerHTML = "Điểm số của bạn: " + score + "/" + shuffledQuestions.length;
+            submitButton.disabled = true;
+            resetButton.disabled = false;
+            newQuizButton.disabled = false;
+        }
+
+        function resetQuiz() {
+            shuffledQuestions.forEach((currentQuestion, questionIndex) => {
+                var selectedOption = document.querySelector('input[name="question' + questionIndex + '"]:checked');
+                if (selectedOption) {
+                    selectedOption.checked = false;
+                    selectedOption.disabled = false;
+                    selectedOption.nextElementSibling.classList.remove('incorrect');
+                }
+            });
+
+            resultContainer.innerHTML = "";
+            submitButton.disabled = false;
+            resetButton.disabled = true;
+            newQuizButton.disabled = true;
+        }
+    </script>
+</body>
+</html>
