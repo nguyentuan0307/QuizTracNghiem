@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Trả lời Câu hỏi</title>
+    <style>
+        /* CSS styling */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .question h3 {
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            height: 40px;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .answer {
+            display: none;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .incorrect {
+            border: 2px solid red;
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Trả lời Câu hỏi</h1>
+    <div id="quiz-container"></div>
+    <button id="submit-button">Nộp bài</button>
+    <br />
+    <div id="result-container"></div>
+    <button id="reset-same-button" class="hide">Làm lại (Cùng câu hỏi)</button>
+    <button id="reset-random-button" class="hide">Làm lại (Câu hỏi ngẫu nhiên)</button>
+
+    <script>
+        // Danh sách câu hỏi và trả lời
+        var questions = [ { question: "What is the essence of marketing?", answer: "Transaction" }, { question: "These are some combination of products, services, information, or experiences offered to a market to satisfy a need or want.", answer: "Market offerings" }, { question: "The idea that consumers will not buy enough of the firm’s products unless the firm undertakes a large-scale selling and promotion effort.", answer: "Selling concepts" }, { question: "The amount of money customers must pay to obtain the product.", answer: "Price" }, { question: "These are individuals or organizations that facilitate the transaction in the market.", answer: "Market intermediaries" }, { question: "Refers to activities that communicate the merits of the product and persuade target customers to buy it.", answer: "Promotion" }, { question: "These are human wants that are backed by buying power.", answer: "Demands" }, { question: "This includes company activities that make the product available to target consumers.", answer: "Place" }, { question: "The set of all actual and potential buyers of a product or service.", answer: "Market" }, { question: "It refers to the setting in the mind of the customers about the product or the service.", answer: "Positioning" }, { question: "The decision process by which business buyers determine which products and services their organizations need to purchase and then find, evaluate, and choose among alternative suppliers and brands.", answer: "Business buying process" }, { question: "A consumer buying behavior in situations characterized by low consumer involvement but significant perceived brand differences.", answer: "Variety-seeking buying behavior" }, { question: "Who is a person within a reference group who, because of special skills, knowledge, personality, or other characteristics, exerts social influence on others?", answer: "Opinion leader" }, { question: "It is the buying behavior of final consumers — individuals and households that buy goods and services for personal consumption.", answer: "Consumer buyer behavior" }, { question: "The processes by which people select, organize, and interpret information to form a meaningful picture of the world.", answer: "Perception" }, { question: "This pertains to the buying attitudes and preferences, and the purchase behavior of consumers.", answer: "Buyer responses" }, { question: "The set of basic values, perceptions, wants, and behaviors learned by a member of society from family and other important institutions.", answer: "Culture" }, { question: "A consumer buying behavior in situations characterized by low consumer involvement and few significant perceived brand differences.", answer: "Habitual buying behavior" }, { question: "The buyer’s decision about which brand to purchase.", answer: "Purchase decision" }, { question: "When the consumer is motivated to search for more information.", answer: "Information search" }, { question: "Evaluating each market segment’s attractiveness and selecting one or more segments to serve.", answer: "Market targeting" }, { question: "Same asinnovators but are not after the innovation but are after the revolutionary movement.", answer: "Early adopters" }, { question: "Competitors do not offer the difference, or the company can offer it in a more distinctive way.", answer: "Distinctive" }, { question: "Tailoring products and marketing programs to the needs and wants of specific individuals and local customer segments; it includes local marketing and individual marketing.", answer: "Micromarketing" }, { question: "When the segments are conceptually distinguishable and respond differently to different marketing mix elements and programs.", answer: "Differentiable" }, { question: "Examples of it are occupation, education, income, race and nationality.", answer: "Demographics" }, { question: "A criterion in choosing the right competitive advantage that refers to the difference is communicable and visible to buyers.", answer: "Communicable" }, { question: "A market-coverage strategy in which a firm targets several market segments and designs separate offers for each.", answer: "Differentiated (Segmented) marketing" }, { question: "Brand loyalty classification that pertains to when consumers refuse to replace the product even if price changes.", answer: "Absolute" }, { question: "The full positioning of a brand—the full mix of benefits on which it is positioned.", answer: "Value proposition" }, { question: "Company growth by identifying and developing new market segments for current company products.", answer: "Market development" }, { question: "The series of internal departments that carry out value-creating activities to design, produce, market, deliver, and support a firm’s products.", answer: "Value chain" }, { question: "The collection of businesses and products that make up the company.", answer: "Business portfolio" }, { question: "A portfolio-planning tool for identifying company growth opportunities through market penetration, market development, product development, or diversification.", answer: "Product/market expansion grid" }, { question: "These are low-share business units in high-growth markets and require a lot of cash to hold their share, let alone increase it.", answer: "Question marks" }, { question: "The extent to which customers are willing and able to pay the product’s price.", answer: "Affordability" }, { question: "Any group that has an actual or potential interest in or impact on an organization’s ability to achieve its objectives.", answer: "Public" }, { question: "The physical environment and the natural resources that are needed as inputs by marketers or that are affected by marketing activities.", answer: "Natural environment" }, { question: "Evaluating each market segment’s attractiveness and selecting one or more segments to serve.", answer: "Market targeting" }, { question: "The actors and forces outside marketing that affect marketing management’s ability to build and maintain successful relationships with target customers.", answer: "Marketing environment" }, { question: "A period in the product life cycle where there is slowdown in sales growth because the product has achieved acceptance by most potential buyers.", answer: "Maturity" }, { question: "The stage of new product development in which the product and its proposed marketing program are tested in realistic market settings.", answer: "Test marketing" }, { question: "A dimension where products are free from defects and consistency in delivering a targeted level of performance.", answer: "Conformance quality" }, { question: "This includes the use of traditional business marketing concepts and tools to encourage behaviors that will create individual and societal well-being.", answer: "Social marketing" }, { question: "These are products bought by final consumers for personal consumption.", answer: "Consumer product" }, { question: "A group of products that are closely related because they function in a similar manner, are sold to the same customer groups, are marketed through the same types of outlets, or fall within given price ranges.", answer: "Product line" }, { question: "Detailed version of the new product idea stated in meaningful consumer terms.", answer: "Product concept" }, { question: "It is a period in the product life cycle when sales fall off and profits drop.", answer: "Decline" }, { question: "These products are bought by individuals and organizations for further processing or for use in conducting a business.", answer: "Industrial products" }, { question: "The activities of designing and producing the container or wrapper for a product.", answer: "Packaging" }, { question: "A type of market that consists of only a few large sellers.", answer: "Oligopolistic competition" }, { question: "It is the price at which the firm will break even or make the profit it’s seeking.", answer: "Target profit pricing" }, { question: "When pricing begins with analyzing consumer needs and value perceptions, and the price is set to match perceived value.", answer: "Customer value based pricing" }, { question: "The measure of the sensitivity of demand to changes in price.", answer: "Price elasticity" }, { question: "A product mix pricing strategy that combines several products and offering the bundle at a reduced price.", answer: "Product-bundle pricing" }, { question: "A retailer whose product line is actually a service.", answer: "Service retailer" }, { question: "A retail store that carries a wide variety of product lines, each operated as a separate department managed by specialist buyers or merchandisers.", answer: "Department store" }, { question: "Wholesalers absorb risk by taking title and bearing the cost of theft, damage, spoilage, and obsolescence.", answer: "Risk bearing" }, { question: "They perform a role similar to that of brokers or agents but are part of the buyer’s organization.", answer: "Purchasing offices" }, { question: "Shaping offers to meet the buyer’s needs, including activities such as manufacturing, grading, assembling, and packaging.", answer: "Matching" }, { question: "Any paid form of non-personal presentation and promotion of ideas, goods, or services by an identified sponsor.", answer: "Advertising" }, { question: "It is a measure of how many times the average person in the target market is exposed to a message.", answer: "Frequency" }, { question: "The sales step in which a salesperson tells the “value story” to the buyer, showing how the company’s offer solves the customer’s problems.", answer: "Presentation" }, { question: "This pertains to personal presentations by the firm’s sales force for the purpose of engaging customers, making sales, and building customer relationships.", answer: "Personal selling" }, { question: "The sales step in which a salesperson asks the customer for an order.", answer: "Closing" }, { question: "These are used to generate business leads, stimulate purchases, reward customers, and motivate salespeople.", answer: "Business promotions" }, { question: "Carefully integrating and coordinating the company’s many communications channels to deliver a clear, consistent, and compelling message about the organization and its products describes.", answer: "Integrated marketing communications" }, { question: "An advertising classification that is used heavily when introducing a new product category.", answer: "Informative" }, { question: "It is the strategy by which the company accomplishes its advertising objectives.", answer: "Advertising strategy" }, { question: "These are goods offered either free or at low cost as an incentive to buy a product.", answer: "Premiums" } ];var questions = [ { question: "What is the essence of marketing?", answer: "Transaction" }, { question: "These are some combination of products, services, information, or experiences offered to a market to satisfy a need or want.", answer: "Market offerings" }, { question: "The idea that consumers will not buy enough of the firm’s products unless the firm undertakes a large-scale selling and promotion effort.", answer: "Selling concepts" }, { question: "The amount of money customers must pay to obtain the product.", answer: "Price" }, { question: "These are individuals or organizations that facilitate the transaction in the market.", answer: "Market intermediaries" }, { question: "Refers to activities that communicate the merits of the product and persuade target customers to buy it.", answer: "Promotion" }, { question: "These are human wants that are backed by buying power.", answer: "Demands" }, { question: "This includes company activities that make the product available to target consumers.", answer: "Place" }, { question: "The set of all actual and potential buyers of a product or service.", answer: "Market" }, { question: "It refers to the setting in the mind of the customers about the product or the service.", answer: "Positioning" }, { question: "The decision process by which business buyers determine which products and services their organizations need to purchase and then find, evaluate, and choose among alternative suppliers and brands.", answer: "Business buying process" }, { question: "A consumer buying behavior in situations characterized by low consumer involvement but significant perceived brand differences.", answer: "Variety-seeking buying behavior" }, { question: "Who is a person within a reference group who, because of special skills, knowledge, personality, or other characteristics, exerts social influence on others?", answer: "Opinion leader" }, { question: "It is the buying behavior of final consumers — individuals and households that buy goods and services for personal consumption.", answer: "Consumer buyer behavior" }, { question: "The processes by which people select, organize, and interpret information to form a meaningful picture of the world.", answer: "Perception" }, { question: "This pertains to the buying attitudes and preferences, and the purchase behavior of consumers.", answer: "Buyer responses" }, { question: "The set of basic values, perceptions, wants, and behaviors learned by a member of society from family and other important institutions.", answer: "Culture" }, { question: "A consumer buying behavior in situations characterized by low consumer involvement and few significant perceived brand differences.", answer: "Habitual buying behavior" }, { question: "The buyer’s decision about which brand to purchase.", answer: "Purchase decision" }, { question: "When the consumer is motivated to search for more information.", answer: "Information search" }, { question: "Evaluating each market segment’s attractiveness and selecting one or more segments to serve.", answer: "Market targeting" }, { question: "Same asinnovators but are not after the innovation but are after the revolutionary movement.", answer: "Early adopters" }, { question: "Competitors do not offer the difference, or the company can offer it in a more distinctive way.", answer: "Distinctive" }, { question: "Tailoring products and marketing programs to the needs and wants of specific individuals and local customer segments; it includes local marketing and individual marketing.", answer: "Micromarketing" }, { question: "When the segments are conceptually distinguishable and respond differently to different marketing mix elements and programs.", answer: "Differentiable" }, { question: "Examples of it are occupation, education, income, race and nationality.", answer: "Demographics" }, { question: "A criterion in choosing the right competitive advantage that refers to the difference is communicable and visible to buyers.", answer: "Communicable" }, { question: "A market-coverage strategy in which a firm targets several market segments and designs separate offers for each.", answer: "Differentiated (Segmented) marketing" }, { question: "Brand loyalty classification that pertains to when consumers refuse to replace the product even if price changes.", answer: "Absolute" }, { question: "The full positioning of a brand—the full mix of benefits on which it is positioned.", answer: "Value proposition" }, { question: "Company growth by identifying and developing new market segments for current company products.", answer: "Market development" }, { question: "The series of internal departments that carry out value-creating activities to design, produce, market, deliver, and support a firm’s products.", answer: "Value chain" }, { question: "The collection of businesses and products that make up the company.", answer: "Business portfolio" }, { question: "A portfolio-planning tool for identifying company growth opportunities through market penetration, market development, product development, or diversification.", answer: "Product/market expansion grid" }, { question: "These are low-share business units in high-growth markets and require a lot of cash to hold their share, let alone increase it.", answer: "Question marks" }, { question: "The extent to which customers are willing and able to pay the product’s price.", answer: "Affordability" }, { question: "Any group that has an actual or potential interest in or impact on an organization’s ability to achieve its objectives.", answer: "Public" }, { question: "The physical environment and the natural resources that are needed as inputs by marketers or that are affected by marketing activities.", answer: "Natural environment" }, { question: "Evaluating each market segment’s attractiveness and selecting one or more segments to serve.", answer: "Market targeting" }, { question: "The actors and forces outside marketing that affect marketing management’s ability to build and maintain successful relationships with target customers.", answer: "Marketing environment" }, { question: "A period in the product life cycle where there is slowdown in sales growth because the product has achieved acceptance by most potential buyers.", answer: "Maturity" }, { question: "The stage of new product development in which the product and its proposed marketing program are tested in realistic market settings.", answer: "Test marketing" }, { question: "A dimension where products are free from defects and consistency in delivering a targeted level of performance.", answer: "Conformance quality" }, { question: "This includes the use of traditional business marketing concepts and tools to encourage behaviors that will create individual and societal well-being.", answer: "Social marketing" }, { question: "These are products bought by final consumers for personal consumption.", answer: "Consumer product" }, { question: "A group of products that are closely related because they function in a similar manner, are sold to the same customer groups, are marketed through the same types of outlets, or fall within given price ranges.", answer: "Product line" }, { question: "Detailed version of the new product idea stated in meaningful consumer terms.", answer: "Product concept" }, { question: "It is a period in the product life cycle when sales fall off and profits drop.", answer: "Decline" }, { question: "These products are bought by individuals and organizations for further processing or for use in conducting a business.", answer: "Industrial products" }, { question: "The activities of designing and producing the container or wrapper for a product.", answer: "Packaging" }, { question: "A type of market that consists of only a few large sellers.", answer: "Oligopolistic competition" }, { question: "It is the price at which the firm will break even or make the profit it’s seeking.", answer: "Target profit pricing" }, { question: "When pricing begins with analyzing consumer needs and value perceptions, and the price is set to match perceived value.", answer: "Customer value based pricing" }, { question: "The measure of the sensitivity of demand to changes in price.", answer: "Price elasticity" }, { question: "A product mix pricing strategy that combines several products and offering the bundle at a reduced price.", answer: "Product-bundle pricing" }, { question: "A retailer whose product line is actually a service.", answer: "Service retailer" }, { question: "A retail store that carries a wide variety of product lines, each operated as a separate department managed by specialist buyers or merchandisers.", answer: "Department store" }, { question: "Wholesalers absorb risk by taking title and bearing the cost of theft, damage, spoilage, and obsolescence.", answer: "Risk bearing" }, { question: "They perform a role similar to that of brokers or agents but are part of the buyer’s organization.", answer: "Purchasing offices" }, { question: "Shaping offers to meet the buyer’s needs, including activities such as manufacturing, grading, assembling, and packaging.", answer: "Matching" }, { question: "Any paid form of non-personal presentation and promotion of ideas, goods, or services by an identified sponsor.", answer: "Advertising" }, { question: "It is a measure of how many times the average person in the target market is exposed to a message.", answer: "Frequency" }, { question: "The sales step in which a salesperson tells the “value story” to the buyer, showing how the company’s offer solves the customer’s problems.", answer: "Presentation" }, { question: "This pertains to personal presentations by the firm’s sales force for the purpose of engaging customers, making sales, and building customer relationships.", answer: "Personal selling" }, { question: "The sales step in which a salesperson asks the customer for an order.", answer: "Closing" }, { question: "These are used to generate business leads, stimulate purchases, reward customers, and motivate salespeople.", answer: "Business promotions" }, { question: "Carefully integrating and coordinating the company’s many communications channels to deliver a clear, consistent, and compelling message about the organization and its products describes.", answer: "Integrated marketing communications" }, { question: "An advertising classification that is used heavily when introducing a new product category.", answer: "Informative" }, { question: "It is the strategy by which the company accomplishes its advertising objectives.", answer: "Advertising strategy" }, { question: "These are goods offered either free or at low cost as an incentive to buy a product.", answer: "Premiums" } ];
+
+        var shuffledQuestions = [];
+        var correctAnswers = 0;
+
+        // Xây dựng trang trả lời câu hỏi
+        function buildQuizPage() {
+            shuffledQuestions = questions;
+            correctAnswers = 0;
+
+            var quizContainer = document.getElementById("quiz-container");
+            quizContainer.innerHTML = "";
+
+            shuffledQuestions.forEach((currentQuestion, questionIndex) => {
+                var questionElement = document.createElement("div");
+                questionElement.className = "question";
+                questionElement.innerHTML = "<h3>Câu hỏi " + (questionIndex + 1) + ": " + currentQuestion.question + "</h3>";
+
+                var answerInput = document.createElement("input");
+                answerInput.type = "text";
+                answerInput.id = "answer-" + questionIndex;
+
+                var answerElement = document.createElement("div");
+                answerElement.className = "answer";
+                answerElement.innerHTML = "Đáp án đúng: " + currentQuestion.answer;
+                answerElement.style.display = "none";
+
+                questionElement.appendChild(answerInput);
+                questionElement.appendChild(answerElement);
+                quizContainer.appendChild(questionElement);
+            });
+        }
+
+        // Kiểm tra kết quả và hiển thị số lượng câu đúng
+        function checkResults() {
+            var resultContainer = document.getElementById("result-container");
+            resultContainer.innerHTML = "";
+
+            correctAnswers = 0;
+
+            shuffledQuestions.forEach((currentQuestion, questionIndex) => {
+                var userAnswer = document.getElementById("answer-" + questionIndex).value.trim();
+                var correctAnswer = currentQuestion.answer;
+
+                if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                    correctAnswers++;
+                } else {
+                    var answerInput = document.getElementById("answer-" + questionIndex);
+                    answerInput.className = "incorrect";
+                }
+            });
+
+            resultContainer.innerHTML = "Số câu đúng: " + correctAnswers + "/" + shuffledQuestions.length;
+
+            // Hiển thị đáp án đúng
+            var answerElements = document.getElementsByClassName("answer");
+            for (var i = 0; i < answerElements.length; i++) {
+                answerElements[i].style.display = "block";
+            }
+
+            // Ẩn nút Nộp bài
+            submitButton.disabled = true;
+
+            // Hiển thị hai nút Làm lại
+            resetSameButton.classList.remove("hide");
+            resetRandomButton.classList.remove("hide");
+        }
+
+        // Bắt sự kiện khi bấm nút Nộp bài
+        var submitButton = document.getElementById("submit-button");
+        submitButton.addEventListener("click", checkResults);
+
+        // Bắt sự kiện khi bấm nút Làm lại (Cùng câu hỏi)
+        var resetSameButton = document.getElementById("reset-same-button");
+        resetSameButton.addEventListener("click", function () {
+            buildQuizPage();
+
+            // Ẩn hai nút Làm lại
+            resetSameButton.classList.add("hide");
+            resetRandomButton.classList.add("hide");
+
+            // Hiển thị nút Nộp bài
+            submitButton.disabled = false;
+        });
+
+        // Bắt sự kiện khi bấm nút Làm lại (Câu hỏi ngẫu nhiên)
+        var resetRandomButton = document.getElementById("reset-random-button");
+        resetRandomButton.addEventListener("click", function () {
+            questions = questions.sort(() => 0.5 - Math.random());
+            buildQuizPage();
+
+            // Ẩn hai nút Làm lại
+            resetSameButton.classList.add("hide");
+            resetRandomButton.classList.add("hide");
+
+            // Hiển thị nút Nộp bài
+            submitButton.disabled = false;
+        });
+
+        // Xây dựng trang trả lời câu hỏi khi trang được tải
+        buildQuizPage();
+    </script>
+</body>
+</html>
